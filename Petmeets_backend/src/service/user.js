@@ -1,4 +1,5 @@
 const mysql = require("mysql2/promise");
+const bcrypt = require("bcrypt");
 const databaseConfig = require("../config/database.js");
 
 async function getAllUser() {
@@ -10,11 +11,11 @@ async function getAllUser() {
 
 async function createUser(name, email, telefone, perfil, password) {
     const connection = await mysql.createConnection(databaseConfig);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const insertUser = 'INSERT INTO user (name, email, telefone, perfil, password) VALUES (?, ?, ?, ?, ?)';
-    await connection.query(insertUser, [name, email, telefone, perfil, password]);
+    await connection.query(insertUser, [name, email, telefone, perfil, hashedPassword]);
     await connection.end();
 }
-
 async function updateUser(id, name, email, telefone, perfil, password) {
     const connection = await mysql.createConnection(databaseConfig);
     const updateUser = 'UPDATE user SET name = ?, email = ?, telefone = ?, perfil = ?, password = ? WHERE id = ?';
