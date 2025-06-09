@@ -6,9 +6,9 @@ const authRoutes = require("./router/authRoutes");
 
 app.use(express.json());
 
-app.use("/users", userRoutes);
-app.use("/clients", clientRoutes);
-app.use("/auth", authRoutes);
+app.use('/api/user', userRoutes);      // para rotas de usuário
+app.use('/auth', authRoutes);          // para login
+app.use('/clients', clientRoutes);     // para cliente/pet
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
